@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
-import{shortenUrl} from '../api/shortenService';
-import{Log} from '2201640100169\\Logging Middleware\\logging.js';
+import{shortenUrl} from '../api/shorten';
+import{Log} from '../../../../Logging Middleware/logging.js';
 
 const ShortenerForm = ({ apiToken }) => {
   const [url, setUrl] = useState('');
@@ -13,7 +13,7 @@ const ShortenerForm = ({ apiToken }) => {
     e.preventDefault();
 
     try {
-      const data = await shortenUrl(url, customCode || null, validity || 30);
+      const data = await shortenUrl(url, customCode||null, validity||30);
 
       if (data.shortUrl) {
         setShortUrl(data.shortUrl);
@@ -26,9 +26,10 @@ const ShortenerForm = ({ apiToken }) => {
           `Short URL created: ${data.shortUrl} for ${url}`,
           apiToken
         );
-      } else {
-        throw new Error("Invalid response from API");
-      }
+        } 
+        else {
+            throw new Error("Invalid response from API");
+        }
     } catch (err) {
       setError(err.message);
       await Log(
